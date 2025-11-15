@@ -14,8 +14,12 @@ describe('orange HRM test', () => {
     lastnamefield:"[name='lastName']",
     genericfield:".oxd-input--active",
     datefield:"[placeholder='yyyy-dd-mm']",
+    genericcombobox:".oxd-select-text-input",
+    seconditemcombobox:".oxd-select-dropdown > :nth-child(2)",
+    thirditemcombobox:".oxd-select-dropdown > :nth-child(3)",
     dateclosebutton:".--close",
     submitbutton:"[type='submit']",
+
     
   }
   
@@ -36,8 +40,18 @@ describe('orange HRM test', () => {
     cy.get(selectorsList.genericfield).eq(5).clear().type('10test')
     cy.get(selectorsList.genericfield).eq(6).clear().type('2025-11-29')
     cy.get(selectorsList.dateclosebutton).click()
-    cy.get(selectorsList.submitbutton).eq(0).click()
+    cy.get(selectorsList.submitbutton).eq(0).click({force:true})
     cy.get('.oxd-toast-close')
+
+
+    
+    cy.get(selectorsList.genericcombobox).eq(0).click()
+    cy.get(selectorsList.seconditemcombobox).click()
+    cy.get(selectorsList.genericcombobox).eq(1).click()
+    cy.get(selectorsList.thirditemcombobox).click()
+    
+    
+   
   })
    it('login - fail', () => {
   cy.visit('/auth/login')
