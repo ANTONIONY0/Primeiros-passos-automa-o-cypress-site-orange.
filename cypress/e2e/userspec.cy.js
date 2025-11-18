@@ -1,14 +1,15 @@
 import userData from '../fixtures/users/user-data.json'
+import LoginPage from '../pages/loginPage'
+import DashboardPage from '../pages/dashboardPage'
+import MenuPage from '../pages/menuPage'
+
+const loginPage = new LoginPage()
+const dashboardPage = new DashboardPage()
+const menuPage = new MenuPage()
 
 describe('orange HRM test', () => {
+
   const selectorsList ={
-    usernameField: "[name='username']",
-    passwordField: "[name='password']",
-    loginButton: "[type='submit']",
-    SectionTitleTopBar: ".oxd-topbar-header-breadcrumb-module",
-    dashboardGrid:".orangehrm-dashboard-grid",
-    wrongCredentiaAlert: "[role='alert']",
-    myInfoButton: '[href="/web/index.php/pim/viewMyDetails"]',
     firstnamefield:"[name='firstName']",
     middlenamefield:"[name='middleName']",
     lastnamefield:"[name='lastName']",
@@ -19,19 +20,17 @@ describe('orange HRM test', () => {
     thirditemcombobox:".oxd-select-dropdown > :nth-child(3)",
     dateclosebutton:".--close",
     submitbutton:"[type='submit']",
-
-    
   }
   
-  it.only('user info update sucess', () => {
+  it.only('user info update Sucess', () => {
+    loginPage.accessLoginPage()
+    loginPage.loginwithUser(userData.usersucess.username,userData.usersucess.password)
 
-    cy.visit('/auth/login')
-    cy.get(selectorsList.usernameField).type('Admin')
-    cy.get(selectorsList.passwordField).type('admin123')
-    cy.get(selectorsList.loginButton).click()
-    cy.location('pathname').should('equal','/web/index.php/dashboard/index')
-    cy.get(selectorsList.dashboardGrid)
-    cy.get(selectorsList.myInfoButton).click()
+    dashboardPage.checkDashboardPage()
+
+    menuPage.accessMyInfo()
+    
+    
     cy.get(selectorsList.firstnamefield).clear().type('tonytest')
     cy.get(selectorsList.middlenamefield).clear().type('antonoionytest')
     cy.get(selectorsList.lastnamefield).clear().type('almeidatest')
@@ -42,7 +41,7 @@ describe('orange HRM test', () => {
     cy.get(selectorsList.dateclosebutton).click()
     cy.get(selectorsList.submitbutton).eq(0).click({force:true})
     cy.get('.oxd-toast-close')
-
+ 
 
     
     cy.get(selectorsList.genericcombobox).eq(0).click()
